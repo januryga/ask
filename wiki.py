@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup #czytanie htmla
+<<<<<<< HEAD
 import re
 
 def get_paragraph(article_name):
@@ -35,10 +36,22 @@ def scrape_paragraph(url):
     
     if page:
         root = BeautifulSoup(page.text, 'lxml')
+=======
+
+def get_paragraph(article_name):
+    """ Download the wikipedia article of a given name and return its first paragraph.""" 
+    
+    url = "http://en.wikipedia.org/wiki/" + article_name.strip()
+    page = requests.get(url)
+    
+    if page:
+        root = BeautifulSoup(page.text)
+>>>>>>> e2dd626b62267c684c832742b60980985d3b7281
         paragraph = root.p
     
         return paragraph.text
     else:
+<<<<<<< HEAD
         raise ValueError("Something's wrong, couldn't download anything.")
 
 
@@ -80,4 +93,7 @@ def todict( result ):
         element = dict(zip(keys, values))
         dicted.append(element)
     return dicted
+=======
+        return "Something's wrong, couldn't download anything."
+>>>>>>> e2dd626b62267c684c832742b60980985d3b7281
 
