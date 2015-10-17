@@ -1,58 +1,43 @@
 import requests
 from bs4 import BeautifulSoup #czytanie htmla
-<<<<<<< HEAD
-import re
 
-def get_paragraph(article_name):
-    """ Download the wikipedia article of a given name and return its first paragraph."""
+def get_article(article_name):
+    """ Download the first paragraph of the wikipedia article with a given name. """
+
     results = api_search(article_name)
     for result in results:
         if not result['description']:
-            result['description'] = scrape_paragraph(result['url'])
+            result['description'] = scrape_article(result['url'])
     return results
 
-def api_search(article_name):
+
+def api_search(article_name, lang='pl'):
     """
-    Search wikipedia for given name and return the server's response in JSON format:
+    Using the MediaWiki API, search wikipedia for given name and return the server's response in JSON format:
     [ search_string, [result_titles], [result_descriptions], [result_url] ]
     """
     url = "http://www.wikipedia.org/w/api.php"
-    params = search_params(article_name, lang='pl')
+    params = search_params(article_name, lang=lang)
 
     response = requests.get(url, params)
-    results_list = response.json()
-
-    if results_list:
-        results = todict(results_list)
+    if response:
+        results_list = response.json()
+        results = to_dict(results_list)
         return results
     else:
         raise ValueError("Something's wrong, couldn't download anything.")
 
 
-def scrape_paragraph(url):
+def scrape_article(url):
     """ Download the wikipedia article with a given name and return its first paragraph."""
 
     page = requests.get(url)
-    
     if page:
         root = BeautifulSoup(page.text, 'lxml')
-=======
-
-def get_paragraph(article_name):
-    """ Download the wikipedia article of a given name and return its first paragraph.""" 
-    
-    url = "http://en.wikipedia.org/wiki/" + article_name.strip()
-    page = requests.get(url)
-    
-    if page:
-        root = BeautifulSoup(page.text)
->>>>>>> e2dd626b62267c684c832742b60980985d3b7281
-        paragraph = root.p
-    
-        return paragraph.text
     else:
-<<<<<<< HEAD
         raise ValueError("Something's wrong, couldn't download anything.")
+
+
 
 
 def search_params(article_name, lang='pl', result_number=2):
@@ -60,7 +45,6 @@ def search_params(article_name, lang='pl', result_number=2):
 
     # play around with different parameters or find new ones:
     # https://en.wikipedia.org/wiki/Special:ApiSandbox
-
     params = {
         'search': article_name,
         'uselang' : lang,
@@ -71,19 +55,18 @@ def search_params(article_name, lang='pl', result_number=2):
         'redirects': 'return',
         'suggest': ''
     }
-
     return params
 
 
-def todict( result ):
+def to_dict(response_array):
     """
     Convert a MediaWiki API JSON response from array to a more usable dict format.
-    expected array format: [ search_string, [result_titles], [result_descriptions], [result_url] ]
+    expected array format: [ search_string, [result_titles], [result_descriptions], [result_urls] ]
     """
 
-    titles = result[1]
-    descriptions = result[2]
-    urls = result[3]
+    titles = response_array[1]
+    descriptions = response_array[2]
+    urls = response_array[3]
 
     dicted = []
     grouped = zip(titles, descriptions, urls)
@@ -92,8 +75,6 @@ def todict( result ):
     for values in grouped:
         element = dict(zip(keys, values))
         dicted.append(element)
+
     return dicted
-=======
-        return "Something's wrong, couldn't download anything."
->>>>>>> e2dd626b62267c684c832742b60980985d3b7281
 
