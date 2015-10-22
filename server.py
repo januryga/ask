@@ -21,30 +21,43 @@ class S(BaseHTTPRequestHandler):
 		self._set_headers()
 		
 	def do_POST(self):
+	
+		length = int(self.headers.get_all("Content-Length")[0])
+		posted_data_raw = self.rfile.read(length) #raw bytes
+		posted_data = posted_data_raw.decode('utf-8')
 		
 		if self.path == '/test':
-			length = int(self.headers.get_all("Content-Length")[0])
-			posted_data_raw = self.rfile.read(length) #raw bytes
-			posted_data = posted_data_raw.decode('utf-8')
-			
-			
 			print(posted_data)
 			response_uni = "<html><body><h1>" + posted_data + "</h1></body></html>"
 
-#			response_dict = {
-#				"payload": {
-#					"success": "true",
-#					"task": "send",
-#					"messages": [
-#						{
-#							"to": "+48-601-527-314",
-#							"message": "halo halo",
-#							"uuid": "042b3515-ef6b-f424-c4qd"
-#						}
-#					]
-#				}
-#			}
-#			response_uni = dumps(response_dict)
+
+		elif self.path == '/sms':
+			# turn urlencode into dict with:
+			# from urllib.parse import parse_qs
+			
+			# maybe it can be done without extracting raw message content?
+			# sth like self.headers.get_all() idk
+			
+			#also: check if these work:
+			# if response.headers['Content-Length'] works.
+			# self.getheader('Content-Length'))
+			# self.getheaders('Content-Length')
+			#
+			# source --> http://goo.gl/RtVCYO
+			response_dict = {
+				"payload": {
+					"success": "true",
+					"task": "send",
+					"messages": [
+						{
+							"to": "+48-601-527-314",
+							"message": "halo halo",
+							"uuid": "042b3515-ef6b-f424-c4qd"
+						}
+					]
+				}
+			}
+			response_uni = dumps(response_dict)
 
 		else:
 			response_uni = "<html><body><h1>POST!</h1></body></html>"
