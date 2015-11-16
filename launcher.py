@@ -19,6 +19,8 @@ def application(environ, start_response):
 	
 	if method == 'GET':
 		params = request.args
+		logging.info(params)
+		logging.info('*******************\n')
 			
 	if method == 'POST':
 	
@@ -27,23 +29,7 @@ def application(environ, start_response):
 		logging.info('*******************\n')
 		
 		number = "+48572035498"
-		
-		
-		response_dict = {
-			"payload": {
-				"success": "true",
-				"error": None,
-				"task": "send",
-				"messages": [
-					{
-						"to": number,
-						"message": "halo halo",
-						"uuid": "042b3515-ef6b-f424-c4qd"
-					}
-				]
-			}
-		}
-		result = dumps(response_dict)
+		# result = dumps(response_dict)
 		
 		
 
