@@ -12,4 +12,4 @@ if lib_path not in sys.path:
 
 
 
-from launcher import application
+from ask import application

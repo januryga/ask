@@ -7,7 +7,7 @@
 # in MAMP, go to MAMP/conf/apache/httpd.conf
 # and add this to the end.
 
-WSGIScriptAlias /ask "C:/Users/lubieowoce/Documents/ask/ask.wsgi"
+WSGIScriptAlias /ask "C:/Users/lubieowoce/Documents/ask/wrapper.wsgi"
 
 <Directory "C:/Users/lubieowoce/Documents/ask">
 Order allow,deny
