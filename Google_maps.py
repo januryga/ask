@@ -1,4 +1,4 @@
-def main(city,origin,destination):
+def find_path_city_a_b(city,origin,destination):
     """
     route JSON example at:
     https://maps.googleapis.com/maps/api/directions/json?origin=Centrum,Warsaw,Poland&destination=Plac+Zbawiciela,Warsaw,Poland&mode=transit
