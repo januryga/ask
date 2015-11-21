@@ -1,4 +1,4 @@
-from xgoogle.search import GoogleSearch, SearchError
+from search import GoogleSearch, SearchError
 
 
 
