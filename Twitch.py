@@ -1,4 +1,4 @@
-def main(nick):
+def get_online_status(nick):
     """
     online user JSON example
     user={
