@@ -45,7 +45,7 @@ Temporary Items
 # CPython cache folder
 __pycache__/
 
-*.pyc
+#*.pyc
 
 # virtualenv packages folder
 lib/
