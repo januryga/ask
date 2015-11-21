@@ -8,10 +8,10 @@ def get_reply(user_message):
 	input isn't valid, returns a nice error message. (string)
 	"""
 
-	import Twitch
-	import Google_maps
-	import Google
-	import Wikipedia
+	import twitch
+	import google_maps
+	import google
+	import wikipedia
 	input=user_message
 	input=input.lower()
 	
@@ -48,14 +48,14 @@ def get_reply(user_message):
 	    elif parameter4:
 	        return ("ERROR: To many parameters")
 	    else:
-	        return (Google_maps.main(parameter1,parameter2,parameter3))
+	        return (Google_maps.find_path_city_a_b(parameter1,parameter2,parameter3))
 	elif program=="twitch":
 	    if not parameter1:
 	        return ("ERROR: To few parameters")
 	    elif parameter2 or parameter3:
 	        return ("ERROR: To many parameters")
 	    else:
-	        return (Twitch.main(parameter1))
+	        return (Twitch.get_online_status(parameter1))
 	elif program=="wiki" or program=="wikipedia":
 	    if not parameter1:
 	        return ("ERROR: To few parameters")
