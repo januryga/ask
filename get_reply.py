@@ -62,14 +62,14 @@ def get_reply(user_message):
 	    elif parameter2:
 	        return ("ERROR: To many parameters")
 	    else:
-	        return (Wikipedia(parameter1))
+	        return (Wikipedia.TU WPISZ NAZWĘ FUKNCJI, KTÓRA ZWRACA ODPOWIEDŹ(parameter1))
 	elif program=="google":
 	    if not parameter1:
 	        return ("ERROR: To few parameters")
 	    elif parameter2:
 	        return ("ERROR: To many parameters")
 	    else:
-	        return (Google(parameter1))
+	        return (Google.TU WPISZ NAZWĘ FUKNCJI, KTÓRA ZWRACA ODPOWIEDŹ(parameter1))
 	else:
 	    return ("ERROR: \"" + program + "\" - No such service provided")
 	return reply_message
