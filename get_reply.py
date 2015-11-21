@@ -8,10 +8,10 @@ def get_reply(user_message):
 	input isn't valid, returns a nice error message. (string)
 	"""
 
-	import twitch
-	import google_maps
-	import google
-	import wikipedia
+	import apps.twitch
+	import apps.google_maps
+	import apps.google
+	import apps.wikipedia
 	input=user_message
 	input=input.lower()
 	
