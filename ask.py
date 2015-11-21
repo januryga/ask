@@ -3,7 +3,7 @@
 from werkzeug.wrappers import Request, Response
 import logging
 import requests
-#from replier import get_reply
+from get_reply import get_reply
 
 # Set up output file for logs
 logging.basicConfig(filename='/Apps/MAMP/logs/request.log', level=logging.INFO)
@@ -30,14 +30,10 @@ def application(environ, start_response):
 		
 		phone = str(params.get('phone'))
 		user_message = str(params.get('text'))
-		
 		log("Received", phone, user_message, begin=True)
 		
 		# call the reply function
-		#reply_message = get_reply(user_message, phone=phone)
-		
-		reply_message = 'hey bro'
-		
+		reply_message = get_reply(user_message, phone)
 		log("Sent", phone, reply_message, end=True)
 		
 		send_sms(phone, reply_message)
@@ -53,7 +49,8 @@ def send_sms(phone, message):
 	Dispatches a HTTP GET request containing the SMS to SMSGateway's server.
 	"""
 	
-	sms_gateway_url = 'http://192.168.0.102:9090/sendsms'
+	# sms_gateway_url = 'http://192.168.0.102:9090/sendsms'
+	sms_gateway_url = 'http://192.168.43.78:6969/sendsms'
 	message_params = {'phone': phone, 'text': message}
 	
 	# Again - not my idea, just what SMSG requires :(
