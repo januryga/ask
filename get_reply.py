@@ -23,7 +23,7 @@ def get_reply(user_message):
 	    input_list[i]=word
 	    i=i+1
 	    if i>4:
-	        break
+		break
 	
 	program=input_list[0]
 	parameter1=input_list[1]
@@ -37,7 +37,7 @@ def get_reply(user_message):
 	
 	for word in input_list[1:]:
 	    if word:
-	        return (word + " ")
+		return (word + " ")
 	"""
 	if not parameter1 and " " in program:
 	    return ("ERROR: No parameters found for \"" + program.split(' ')[0] +"\".\nPlease separate expressions with \",\".")
@@ -45,34 +45,34 @@ def get_reply(user_message):
 	    return ("ERROR: Empty request")
 	elif program=="maps" or program=="google maps":
 	    if not parameter1 or not parameter2 or not parameter3:
-	        return ("ERROR: To few parameters")
+		return ("ERROR: To few parameters")
 	    elif parameter4:
-	        return ("ERROR: To many parameters")
+		return ("ERROR: To many parameters")
 	    else:
-	        return (google_maps.find_path_city_a_b(parameter1,parameter2,parameter3))
+		return (google_maps.find_path_city_a_b(parameter1,parameter2,parameter3))
 	elif program=="twitch":
 	    if not parameter1:
-	        return ("ERROR: To few parameters")
+		return ("ERROR: To few parameters")
 	    elif parameter2 or parameter3:
-	        return ("ERROR: To many parameters")
+		return ("ERROR: To many parameters")
 	    else:
-	        return (twitch.get_online_status(parameter1))
+		return (twitch.get_online_status(parameter1))
 	elif program=="wiki" or program=="wikipedia":
 	    if not parameter1:
-	        return ("ERROR: To few parameters")
+		return ("ERROR: To few parameters")
 	    elif parameter2:
-	        return ("ERROR: To many parameters")
+		return ("ERROR: To many parameters")
 	    else:
-                return (wikipedia.TU WPISZ NAZWE FUKNCJI, KTORA ZWRACA ODPOWIEDZ(parameter1))
+		return (wikipedia.TU WPISZ NAZWE FUKNCJI, KTORA ZWRACA ODPOWIEDZ(parameter1))
 
 	elif program=="google":
 	    if not parameter1:
-	        return ("ERROR: To few parameters")
+		return ("ERROR: To few parameters")
 	    elif parameter2:
-	        return ("ERROR: To many parameters")
+		return ("ERROR: To many parameters")
 	    else:
-                return (google.get_google_search(parameter1))
-        else:
+		return (google.get_google_search(parameter1))
+	else:
 	    return ("ERROR: \"" + program + "\" - No such service provided")
 	return reply_message
 
