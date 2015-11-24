@@ -48,28 +48,28 @@ def get_reply(user_message):
 	    elif parameter4:
 	        return ("ERROR: To many parameters")
 	    else:
-	        return (Google_maps.find_path_city_a_b(parameter1,parameter2,parameter3))
+	        return (google_maps.find_path_city_a_b(parameter1,parameter2,parameter3))
 	elif program=="twitch":
 	    if not parameter1:
 	        return ("ERROR: To few parameters")
 	    elif parameter2 or parameter3:
 	        return ("ERROR: To many parameters")
 	    else:
-	        return (Twitch.get_online_status(parameter1))
+	        return (twitch.get_online_status(parameter1))
 	elif program=="wiki" or program=="wikipedia":
 	    if not parameter1:
 	        return ("ERROR: To few parameters")
 	    elif parameter2:
 	        return ("ERROR: To many parameters")
 	    else:
-	        return (Wikipedia.TU WPISZ NAZWĘ FUKNCJI, KTÓRA ZWRACA ODPOWIEDŹ(parameter1))
+	        return (wikipedia.TU WPISZ NAZWĘ FUKNCJI, KTÓRA ZWRACA ODPOWIEDŹ(parameter1))
 	elif program=="google":
 	    if not parameter1:
 	        return ("ERROR: To few parameters")
 	    elif parameter2:
 	        return ("ERROR: To many parameters")
 	    else:
-	        return (Google.TU WPISZ NAZWĘ FUKNCJI, KTÓRA ZWRACA ODPOWIEDŹ(parameter1))
+	        return (google.TU WPISZ NAZWĘ FUKNCJI, KTÓRA ZWRACA ODPOWIEDŹ(parameter1))
 	else:
 	    return ("ERROR: \"" + program + "\" - No such service provided")
 	return reply_message
