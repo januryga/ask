@@ -1,6 +1,6 @@
 """ Reply generating component """
 
-def get_reply(user_message):
+def get_reply(user_message,phone):
 	"""
 	Tries to interpret the input from user_message. If the input
 	is a valid command, it calls the right app from apps/ with the
