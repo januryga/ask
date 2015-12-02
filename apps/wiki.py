@@ -2,23 +2,33 @@ import requests
 from bs4 import BeautifulSoup #czytanie htmla
 
 def get_article(article_name):
-    """ Download the first paragraph of the wikipedia article with a given name. """
+    """
+    Searches wikipedia for given article_name string,
+    and returns a string with the title and description
+    of the first article found.
+    """
     try:
-        results = api_search(article_name)
-        return results[0]
+        search_results = api_search(article_name)
+        article = search_results[0]
+        result = article['title'] + '\n' + article['description']
     except requests.exceptions.ConnectionError:
-        return('ERROR:server is offline.')
-    '''for result in results:
-        if not result['description']:
-            result['description'] = scrape_article(result['url'])'''
+        result = "ERROR:server is offline."
+    except ValueError:
+        result = "Sorry, didn't find anything."
+
+    return result
+    # for result in results:
+    #     if not result['description']:
+    #         result['description'] = scrape_article(result['url'])
         
     
 
 
 def api_search(article_name, lang='pl'):
     """
-    Using the MediaWiki API, search wikipedia for given name and return the server's response in JSON format:
-    [ search_string, [result_titles], [result_descriptions], [result_url] ]
+    Using the MediaWiki API, search wikipedia for given article_name
+    and return a list of dicts containing the server's response.
+    Each dict contains the keys: 'title', 'description', 'url'.
     """
     url = "http://www.wikipedia.org/w/api.php"
     params = search_params(article_name, lang=lang)
@@ -32,20 +42,23 @@ def api_search(article_name, lang='pl'):
         raise ValueError("Something's wrong, couldn't download anything.")
 
 
-'''def scrape_article(url):
-    """ Download the wikipedia article with a given name and return its first paragraph."""
+# def scrape_article(url):
+#     """ Download the wikipedia article with a given name and return its first paragraph."""
 
-    page = requests.get(url)
-    if page:
-        root = BeautifulSoup(page.text, 'html.parser')
-    else:
-        raise ValueError("Something's wrong, couldn't download anything.")'''
+#     page = requests.get(url)
+#     if page:
+#         root = BeautifulSoup(page.text, 'html.parser')
+#     else:
+#         raise ValueError("Something's wrong, couldn't download anything.")
 
 
 
 
 def search_params(article_name, lang='pl', result_number=2):
-    """ Construct and return a dict containing parameters for the Wikipedia MediaWiki API """
+    """
+    Construct and return a dict containing parameters
+    for the Wikipedia MediaWiki API.
+    """
 
     # play around with different parameters or find new ones:
     # https://en.wikipedia.org/wiki/Special:ApiSandbox
@@ -64,13 +77,11 @@ def search_params(article_name, lang='pl', result_number=2):
 
 def to_dict(response_array):
     """
-    Convert a MediaWiki API JSON response from array to a more usable dict format.
-    expected array format: [ search_string, [result_titles], [result_descriptions], [result_urls] ]
+    Convert a MediaWiki API JSON response from a messy array to
+    a more usable dict format. Expected array format:
+    [ search_string, [result_titles], [result_descriptions], [result_urls] ]
     """
-
-    titles = response_array[1]
-    descriptions = response_array[2]
-    urls = response_array[3]
+    query, titles, descriptions, urls = response_array
 
     dicted = []
     grouped = zip(titles, descriptions, urls)

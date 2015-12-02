@@ -3,7 +3,7 @@
 from werkzeug.wrappers import Request, Response
 import logging
 import requests
-from get_reply import get_reply
+from reply import get_reply
 
 # Set up output file for logs
 logging.basicConfig(filename='/Apps/MAMP/logs/request.log', level=logging.INFO)
