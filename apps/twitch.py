@@ -1,4 +1,13 @@
+import requests
+
 def get_online_status(nick):
+    try:
+        results = get_status(nick)
+        return results
+    except requests.exceptions.ConnectionError:
+        return('ERROR:server is offline.')
+
+def get_status(nick):
     """
     online user JSON example
     user={
@@ -64,7 +73,6 @@ def get_online_status(nick):
             },
         "stream":null}
     """
-    import requests
 
     url="https://api.twitch.tv/kraken/streams/"+nick
     twitch_raw=requests.get(url)

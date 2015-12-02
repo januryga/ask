@@ -1,9 +1,17 @@
+import requests
+
 def find_path_city_a_b(city,origin,destination):
+    try:
+        results = find_path_city(city,origin,destination)
+        return results
+    except requests.exceptions.ConnectionError:
+        return('ERROR:server is offline.')
+
+def find_path_city(city,origin,destination):
     """
     route JSON example at:
     https://maps.googleapis.com/maps/api/directions/json?origin=Centrum,Warsaw,Poland&destination=Plac+Zbawiciela,Warsaw,Poland&mode=transit
     """
-    import requests
 
     url="https://maps.googleapis.com/maps/api/directions/json?origin="+origin+","+city+",Poland&destination="+destination+","+city+",Poland&mode=transit"
 

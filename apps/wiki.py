@@ -3,12 +3,16 @@ from bs4 import BeautifulSoup #czytanie htmla
 
 def get_article(article_name):
     """ Download the first paragraph of the wikipedia article with a given name. """
-
-    results = api_search(article_name)
-    for result in results:
+    try:
+        results = api_search(article_name)
+        return results[0]
+    except requests.exceptions.ConnectionError:
+        return('ERROR:server is offline.')
+    '''for result in results:
         if not result['description']:
-            result['description'] = scrape_article(result['url'])
-    return results
+            result['description'] = scrape_article(result['url'])'''
+        
+    
 
 
 def api_search(article_name, lang='pl'):
@@ -28,14 +32,14 @@ def api_search(article_name, lang='pl'):
         raise ValueError("Something's wrong, couldn't download anything.")
 
 
-def scrape_article(url):
+'''def scrape_article(url):
     """ Download the wikipedia article with a given name and return its first paragraph."""
 
     page = requests.get(url)
     if page:
-        root = BeautifulSoup(page.text, 'lxml')
+        root = BeautifulSoup(page.text, 'html.parser')
     else:
-        raise ValueError("Something's wrong, couldn't download anything.")
+        raise ValueError("Something's wrong, couldn't download anything.")'''
 
 
 
