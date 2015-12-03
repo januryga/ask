@@ -6,16 +6,18 @@ from search import GoogleSearch, SearchError
 def get_google_search(phrase):
   try:
     gs = GoogleSearch(phrase)
-    gs.results_per_page = 50
+    gs.results_per_page = 30
     results = gs.get_results()
     if not results:
-      print "No results matched."
+      result = "No results matched."
     else:
+      str_list=[]
       for res in results:
-        print res.title.encode("utf8")
-        print res.desc.encode("utf8")
+        str_list.append(res.title.encode("utf8"))
+        str_list.append(res.desc.encode("utf8"))
         #print res.url.encode("utf8")
-        print
+      return '\n'.join(str_list)
   except SearchError:
-    print "Google search failed"
+    result = "Google search failed."
+  return result
 #get_google_search(str(raw_input))
