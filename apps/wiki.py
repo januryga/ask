@@ -1,37 +1,48 @@
+""" Search Wikipedia and get article excerpts. """
+
 import requests
-from bs4 import BeautifulSoup #czytanie htmla
+from bs4 import BeautifulSoup
+from re import sub
+
+
 
 def get_article(article_name):
-    """
+    """get_article(string) -> string
+    
     Searches wikipedia for given article_name string,
     and returns a string with the title and description
     of the first article found.
     """
     try:
         search_results = api_search(article_name)
-        article = search_results[0]
-        result = article['title'] + '\n' + article['description']
+
+        for article in search_results:
+            if not article['description']:
+                article['description'] = first_paragraph(article['url'])
+
+        first_article = search_results[0]
+        result = first_article['description']
+
+
     except requests.exceptions.ConnectionError:
-        result = "ERROR:server is offline."
+        result = "Sorry, couldn't connect to Wikipedia."
+        
     except ValueError:
-        result = "Sorry, didn't find anything."
+        result = "Sorry, didn't find anything for \"{search}\"".format(search=article_name)
 
     return result
-    # for result in results:
-    #     if not result['description']:
-    #         result['description'] = scrape_article(result['url'])
+    
         
     
+def api_search(article_name, lang='pl', results=3):
+    """api_search(string, [string]) -> list
 
-
-def api_search(article_name, lang='pl'):
-    """
     Using the MediaWiki API, search wikipedia for given article_name
     and return a list of dicts containing the server's response.
     Each dict contains the keys: 'title', 'description', 'url'.
     """
     url = "http://www.wikipedia.org/w/api.php"
-    params = search_params(article_name, lang=lang)
+    params = search_params(article_name, lang=lang, results=results)
 
     response = requests.get(url, params)
     if response:
@@ -39,23 +50,39 @@ def api_search(article_name, lang='pl'):
         results = to_dict(results_list)
         return results
     else:
-        raise ValueError("Something's wrong, couldn't download anything.")
-
-
-# def scrape_article(url):
-#     """ Download the wikipedia article with a given name and return its first paragraph."""
-
-#     page = requests.get(url)
-#     if page:
-#         root = BeautifulSoup(page.text, 'html.parser')
-#     else:
-#         raise ValueError("Something's wrong, couldn't download anything.")
+        raise ValueError
 
 
 
+def first_paragraph(article_url):
+    """Download the wikipedia article under a given url
+    and return its first paragraph."""
 
-def search_params(article_name, lang='pl', result_number=2):
-    """
+    html = requests.get(article_url).text
+
+    page = BeautifulSoup(html, 'html.parser')
+    article_body = page.find(id='bodyContent')
+
+    # Removes the tables - they contain <p> elements sometimes,
+    # so the search finds that element instead of the article's
+    # first paragraph.
+    tables = article_body.find_all('table')
+    for table in tables:
+        table.decompose() # delete from html
+
+    first_paragraph = article_body.p
+    paragraph_text = first_paragraph.get_text()
+
+    # Removes the '[10]' citation numbers.
+    clean_text = sub(r'\[\d+\]', '', paragraph_text)
+    
+    return clean_text
+
+
+
+def search_params(article_name, lang='pl', results=2):
+    """search_params(string, [string, int]) -> dict
+
     Construct and return a dict containing parameters
     for the Wikipedia MediaWiki API.
     """
@@ -65,7 +92,7 @@ def search_params(article_name, lang='pl', result_number=2):
     params = {
         'search': article_name,
         'uselang' : lang,
-        'limit' : result_number,
+        'limit' : results,
         'action': 'opensearch',
         'format': 'json',
         'namespace': 0,
@@ -76,7 +103,8 @@ def search_params(article_name, lang='pl', result_number=2):
 
 
 def to_dict(response_array):
-    """
+    """to_dict(list) -> dict
+
     Convert a MediaWiki API JSON response from a messy array to
     a more usable dict format. Expected array format:
     [ search_string, [result_titles], [result_descriptions], [result_urls] ]
