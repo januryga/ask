@@ -1,3 +1,5 @@
+""" Search Google, duh."""
+
 from search import GoogleSearch, SearchError
 
 

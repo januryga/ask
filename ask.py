@@ -14,15 +14,16 @@ logging.getLogger('requests').setLevel(logging.WARNING)
 
 def application(environ, start_response):
 	"""
-	Main function of Ask: receives an SMS message, calls the launcher (which parses
-	the message and returns an adequate reply) and dispatches a reply SMS to the SMS
-	Gateway app server via a HTTP GET request (send_sms).
+	Main WSGI callable - the function the server calls upon
+	receiveing a request.
+	Receives an SMS message, calls get_reply (which interprets
+	the message and returns an adequate reply) and dispatches
+	a reply SMS to the SMSGateway app server. (via a HTTP GET request)
 	"""
 	request = Request(environ)
-	
 	method = request.method
 	
-	# The Server receives sms using a GET Request.
+	# Our server receives an SMS using a GET Request.
 	# I'd use POST if it was my choice, but the
 	# creator of SMS Gateway chose GET :(.
 	if method == 'GET':
@@ -36,17 +37,21 @@ def application(environ, start_response):
 		reply_message = get_reply(user_message, phone)
 		log("Sent", phone, reply_message, end=True)
 		
-		send_sms(phone, reply_message)
+		if __name__ != '__main__':
+			send_sms(phone, reply_message)
 		
-	response = Response('', mimetype='text/html')
+	#response = Response('', mimetype='text/html')
+	response = Response(reply_message, mimetype='text/html')
 	return response(environ, start_response)
 
 
 
 
 def send_sms(phone, message):
-	"""
-	Dispatches a HTTP GET request containing the SMS to SMSGateway's server.
+	""" send_sms(string, string) -> void
+
+	Dispatches a HTTP GET request containing the SMS
+	to SMSGateway's server.
 	"""
 	
 	# sms_gateway_url = 'http://192.168.0.102:9090/sendsms'
