@@ -4,7 +4,7 @@
 import inspect
 
 import apps.twitch
-#import apps.google
+import apps.google
 import apps.maps
 import apps.wiki
 
@@ -35,7 +35,7 @@ def get_reply(user_message, user_phone=''):
 
 	app_functions = {
 		'twitch': apps.twitch.describe_user_status,
-		#'google': apps.google.search_results,
+		'google': apps.google.pretty_search,
 		'wiki': apps.wiki.get_article,
 		'maps': apps.maps.describe_directions
 	}
