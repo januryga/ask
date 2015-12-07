@@ -1,8 +1,7 @@
 # -*- coding: cp1250 -*-
 """ Reply generating component """
 
-import re
-
+import inspect
 #import apps.google
 import apps.maps
 import apps.wiki
@@ -55,7 +54,8 @@ def get_reply(user_message, user_phone=''):
 
 	# Confusingly, giving a function a wrong number of arguments raises TypeError.
 	except TypeError as error:
-		required_arg_num, given_arg_num = re.findall(r'\d+',error.args[0])
+		required_arg_num = len(inspect.getargspec(app)[0])
+		given_arg_num = len(parameters)
 
 		if required_arg_num > given_arg_num:
 			template = (
