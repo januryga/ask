@@ -7,7 +7,7 @@ import re
 import apps.maps
 import apps.wiki
 import apps.twitch
-
+#kupa
 
 
 def parse_input(input):
@@ -54,7 +54,7 @@ def get_reply(user_message, user_phone=''):
 		result = "Sorry, there's no app called {app}.".format(app=chosen_app)
 
 	# Confusingly, giving a function a wrong number of arguments raises TypeError.
-	except TypeError as error: 
+	except TypeError as error:
 		required_arg_num, given_arg_num = re.findall(r'\d+',error.args[0])
 
 		if required_arg_num > given_arg_num:
