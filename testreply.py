@@ -1,12 +1,10 @@
 """ Reply generating component """
 
-def get_reply(user_message, phone):
-	"""
-	Tries to interpret the input from user_message. If the input
+def get_reply(user_message, phone=''):
+	"""Tries to interpret the input from user_message. If the input
 	is a valid command, it calls the right app from apps/ with the
 	interpreted parameters, and returns its output. (string) If the
-	input isn't valid, returns a nice error message. (string)
-	"""
+	input isn't valid, returns a nice error message. (string)"""
 
 	words = user_message.split(' ')
 	name = words[-1]

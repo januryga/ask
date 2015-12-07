@@ -2,7 +2,7 @@
 
 import requests
 from bs4 import BeautifulSoup
-from re import sub
+import re
 
 
 
@@ -27,8 +27,8 @@ def get_article(article_name):
     except requests.exceptions.ConnectionError:
         result = "Sorry, couldn't connect to Wikipedia."
         
-    except ValueError:
-        result = "Sorry, didn't find anything for \"{search}\"".format(search=article_name)
+    except (ValueError, IndexError):
+        result = "Sorry, couldn't find anything for \"{search}\".".format(search=article_name)
 
     return result
     
@@ -74,7 +74,7 @@ def first_paragraph(article_url):
     paragraph_text = first_paragraph.get_text()
 
     # Removes the '[10]' citation numbers.
-    clean_text = sub(r'\[\d+\]', '', paragraph_text)
+    clean_text = re.sub(r'\[\d+\]', '', paragraph_text)
     
     return clean_text
 
