@@ -4,7 +4,7 @@ import requests
 
 
 
-def pretty_user_status(nick):
+def describe_user_status(nick):
 	"""
 	get_online_status(string) -> string
 	Returns a friendly sentence describing a user's Twitch status

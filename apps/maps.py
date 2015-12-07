@@ -4,7 +4,7 @@ import requests
 
 
 
-def pretty_directions(city, start, destination):
+def describe_directions(city, start, destination):
     """pretty_directions(string, string, string) -> string
 
     Returns a string with step-by-step transit directions from

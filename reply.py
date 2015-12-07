@@ -2,21 +2,22 @@
 """ Reply generating component """
 
 import inspect
+
+import apps.twitch
 #import apps.google
 import apps.maps
 import apps.wiki
-import apps.twitch
-#kupa
 
 
 def parse_input(input):
-	app = input.split(' ')[0]
-	parameters = input.partition(' ')[2]
-	parameters = parameters.split(',')
-	for index,parameter in enumerate(parameters):
-		if parameters[index]=='':
-			parameters.pop(index)
-	return app,parameters
+	try:
+		app, joined_params = input.split(' ', 1)
+		dirty_parameters = joined_params.split(',')
+		parameters = [param.strip() for param in dirty_parameters]
+	except ValueError:
+		app, parameters = input, []
+	
+	return app, parameters
 
 
 
@@ -33,10 +34,10 @@ def get_reply(user_message, user_phone=''):
 	result = ''
 
 	app_functions = {
-		'twitch': apps.twitch.pretty_user_status,
-		#'google': google.search,
+		'twitch': apps.twitch.describe_user_status,
+		#'google': apps.google.search_results,
 		'wiki': apps.wiki.get_article,
-		'maps': apps.maps.pretty_directions
+		'maps': apps.maps.describe_directions
 	}
 
 
@@ -69,6 +70,7 @@ def get_reply(user_message, user_phone=''):
 				"You gave it {given}, but it only needs {required} "
 				"to work."
 			)
+
 		result = template.format(app=chosen_app,
 								given=given_arg_num,
 								required=required_arg_num)
