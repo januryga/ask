@@ -10,6 +10,14 @@ $RECYCLE.BIN/
 
 # Windows Installer files
 *.cab
+# OSX
+# =========================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
 *.msi
 *.msm
 *.msp
@@ -21,14 +29,6 @@ $RECYCLE.BIN/
 # Operating System Files
 # =========================
 
-# OSX
-# =========================
-
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Thumbnails
 ._*
 
 # Files that might appear on external disk
@@ -45,7 +45,7 @@ Temporary Items
 # CPython cache folder
 __pycache__/
 
-#*.pyc
+*.pyc
 
 # virtualenv packages folder
 lib/

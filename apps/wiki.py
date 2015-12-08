@@ -7,12 +7,12 @@ import re
 
 
 def get_article(article_name):
-    """get_article(string) -> string
-    
-    Searches wikipedia for given article_name string,
-    and returns a string with the title and description
-    of the first article found.
-    """
+    """Returns a string with a short version of the article or an error message.
+
+    Handles:
+    - ConnectionError (requests module)
+    - ValueError, IndexError (for no results)"""
+
     try:
         search_results = api_search(article_name)
 
@@ -21,7 +21,7 @@ def get_article(article_name):
                 article['description'] = first_paragraph(article['url'])
 
         first_article = search_results[0]
-        result = first_article['description']
+        result = first_article['title'] + '/n' + first_article['description']
 
 
     except requests.exceptions.ConnectionError:
@@ -35,12 +35,10 @@ def get_article(article_name):
         
     
 def api_search(article_name, lang='pl', results=3):
-    """api_search(string, [string]) -> list
-
-    Using the MediaWiki API, search wikipedia for given article_name
+    """Using the MediaWiki API, search wikipedia for given article_name
     and return a list of dicts containing the server's response.
-    Each dict contains the keys: 'title', 'description', 'url'.
-    """
+    Each dict contains the keys: 'title', 'description', 'url'."""
+    
     url = "http://www.wikipedia.org/w/api.php"
     params = search_params(article_name, lang=lang, results=results)
 
